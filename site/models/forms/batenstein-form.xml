@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <!-- Page 1: Personal Information -->
+    <fieldset name="personal" label="COM_BATENSTEINFORM_PERSONAL_LABEL">
+        <field
+            name="first_name"
+            type="text"
+            label="COM_BATENSTEINFORM_FIRST_NAMES_LABEL"
+            description="COM_BATENSTEINFORM_FIRST_NAMES_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="calling_name"
+            type="text"
+            label="COM_BATENSTEINFORM_CALLING_NAME_LABEL"
+            description="COM_BATENSTEINFORM_CALLING_NAME_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="name_prefix"
+            type="text"
+            label="COM_BATENSTEINFORM_NAME_PREFIX_LABEL"
+            description="COM_BATENSTEINFORM_NAME_PREFIX_DESC"
+            size="40"
+            class="inputbox"
+        />
+        
+        <field
+            name="last_name"
+            type="text"
+            label="COM_BATENSTEINFORM_LAST_NAME_LABEL"
+            description="COM_BATENSTEINFORM_LAST_NAME_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="address"
+            type="text"
+            label="COM_BATENSTEINFORM_ADDRESS_LABEL"
+            description="COM_BATENSTEINFORM_ADDRESS_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="postal_code_city"
+            type="text"
+            label="COM_BATENSTEINFORM_POSTAL_CODE_CITY_LABEL"
+            description="COM_BATENSTEINFORM_POSTAL_CODE_CITY_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="birth_date"
+            type="calendar"
+            label="COM_BATENSTEINFORM_BIRTH_DATE_LABEL"
+            description="COM_BATENSTEINFORM_BIRTH_DATE_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+            format="%d-%m-%Y"
+        />
+        
+        <field
+            name="birth_place"
+            type="text"
+            label="COM_BATENSTEINFORM_BIRTH_PLACE_LABEL"
+            description="COM_BATENSTEINFORM_BIRTH_PLACE_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="scout_section"
+            type="radio"
+            label="COM_BATENSTEINFORM_SCOUT_SECTION_LABEL"
+            description="COM_BATENSTEINFORM_SCOUT_SECTION_DESC"
+            class="btn-group btn-group-yesno"
+            required="true"
+        >
+            <option value="welpen">COM_BATENSTEINFORM_WELPEN</option>
+            <option value="scouts">COM_BATENSTEINFORM_SCOUTS</option>
+            <option value="explorers">COM_BATENSTEINFORM_EXPLORERS</option>
+            <option value="stam">COM_BATENSTEINFORM_STAM</option>
+            <option value="plus">COM_BATENSTEINFORM_PLUS_SCOUTS</option>
+            <option value="sikas">COM_BATENSTEINFORM_SIKAS</option>
+        </field>
+    </fieldset>
+    
+    <fieldset name="personal_contact" label="COM_BATENSTEINFORM_PERSONAL_CONTACT_LABEL">
+        <field
+            name="phone_number"
+            type="tel"
+            label="COM_BATENSTEINFORM_PHONE_NUMBER_LABEL"
+            description="COM_BATENSTEINFORM_PHONE_NUMBER_DESC"
+            size="40"
+            class="inputbox"
+            required="false"
+        />
+        
+        <field
+            name="email_address"
+            type="email"
+            label="COM_BATENSTEINFORM_EMAIL_ADDRESS_LABEL"
+            description="COM_BATENSTEINFORM_EMAIL_ADDRESS_DESC"
+            size="40"
+            class="inputbox"
+            validate="email"
+            required="false"
+        />
+    </fieldset>
+    
+    <fieldset name="parent1" label="COM_BATENSTEINFORM_PARENT1_LABEL">
+        <field
+            name="parent1_name"
+            type="text"
+            label="COM_BATENSTEINFORM_PARENT1_NAME_LABEL"
+            description="COM_BATENSTEINFORM_PARENT1_NAME_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="parent1_phone_number"
+            type="tel"
+            label="COM_BATENSTEINFORM_PARENT1_PHONE_NUMBER_LABEL"
+            description="COM_BATENSTEINFORM_PARENT1_PHONE_NUMBER_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="parent1_email_address"
+            type="email"
+            label="COM_BATENSTEINFORM_PARENT1_EMAIL_ADDRESS_LABEL"
+            description="COM_BATENSTEINFORM_PARENT1_EMAIL_ADDRESS_DESC"
+            size="40"
+            class="inputbox"
+            validate="email"
+            required="true"
+        />
+    </fieldset>
+    
+    <fieldset name="parent2" label="COM_BATENSTEINFORM_PARENT2_LABEL">
+        <field
+            name="parent2_name"
+            type="text"
+            label="COM_BATENSTEINFORM_PARENT2_NAME_LABEL"
+            description="COM_BATENSTEINFORM_PARENT2_NAME_DESC"
+            size="40"
+            class="inputbox"
+        />
+        
+        <field
+            name="parent2_phone_number"
+            type="tel"
+            label="COM_BATENSTEINFORM_PARENT2_PHONE_NUMBER_LABEL"
+            description="COM_BATENSTEINFORM_PARENT2_PHONE_NUMBER_DESC"
+            size="40"
+            class="inputbox"
+        />
+        
+        <field
+            name="parent2_email_address"
+            type="email"
+            label="COM_BATENSTEINFORM_PARENT2_EMAIL_ADDRESS_LABEL"
+            description="COM_BATENSTEINFORM_PARENT2_EMAIL_ADDRESS_DESC"
+            size="40"
+            class="inputbox"
+            validate="email"
+        />
+    </fieldset>
+
+    <!-- Page 2: Photo/Video Material -->
+    <fieldset name="images" label="COM_BATENSTEINFORM_IMAGES_LABEL">
+        <field
+            name="images_website"
+            type="radio"
+            label="COM_BATENSTEINFORM_IMAGES_WEBSITE_LABEL"
+            description="COM_BATENSTEINFORM_IMAGES_WEBSITE_DESC"
+            class="btn-group btn-group-yesno"
+            default="Yes"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+        
+        <field
+            name="images_social"
+            type="radio"
+            label="COM_BATENSTEINFORM_IMAGES_SOCIAL_LABEL"
+            description="COM_BATENSTEINFORM_IMAGES_SOCIAL_DESC"
+            class="btn-group btn-group-yesno"
+            default="Yes"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+        
+        <field
+            name="images_newspaper"
+            type="radio"
+            label="COM_BATENSTEINFORM_IMAGES_NEWSPAPER_LABEL"
+            description="COM_BATENSTEINFORM_IMAGES_NEWSPAPER_DESC"
+            class="btn-group btn-group-yesno"
+            default="Yes"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+    </fieldset>
+
+    <!-- Page 3: Health Information -->
+    <fieldset name="health_swimming" label="COM_BATENSTEINFORM_HEALTH_SWIMMING_LABEL">
+        <!-- Swimming ability -->
+        <field
+            name="can_swim"
+            type="radio"
+            label="COM_BATENSTEINFORM_CAN_SWIM_LABEL"
+            description="COM_BATENSTEINFORM_CAN_SWIM_DESC"
+            class="btn-group btn-group-yesno"
+            default="No"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+        
+        <field
+            name="swim_diplomas"
+            type="text"
+            label="COM_BATENSTEINFORM_SWIM_DIPLOMAS_LABEL"
+            description="COM_BATENSTEINFORM_SWIM_DIPLOMAS_DESC"
+            size="40"
+            class="inputbox"
+        />
+    </fieldset>
+
+    <fieldset name="health_emergency" label="COM_BATENSTEINFORM_HEALTH_EMERGENCY_LABEL">
+        <!-- Emergency contact -->
+        <field
+            name="emergency_contact_name"
+            type="text"
+            label="COM_BATENSTEINFORM_EMERGENCY_CONTACT_NAME_LABEL"
+            description="COM_BATENSTEINFORM_EMERGENCY_CONTACT_NAME_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="emergency_contact_relation"
+            type="text"
+            label="COM_BATENSTEINFORM_EMERGENCY_CONTACT_RELATION_LABEL"
+            description="COM_BATENSTEINFORM_EMERGENCY_CONTACT_RELATION_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="emergency_contact_phone"
+            type="tel"
+            label="COM_BATENSTEINFORM_EMERGENCY_CONTACT_PHONE_LABEL"
+            description="COM_BATENSTEINFORM_EMERGENCY_CONTACT_PHONE_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+    </fieldset>
+
+    <!-- Medical Information -->
+    <fieldset name="health_medical" label="COM_BATENSTEINFORM_HEALTH_MEDICAL_LABEL">
+        <!-- Medical information -->
+        <field
+            name="special_health_care"
+            type="radio"
+            label="COM_BATENSTEINFORM_SPECIAL_HEALTH_CARE_LABEL"
+            description="COM_BATENSTEINFORM_SPECIAL_HEALTH_CARE_DESC"
+            class="btn-group btn-group-yesno"
+            default="No"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+        
+        <field
+            name="special_health_care_details"
+            type="textarea"
+            label="COM_BATENSTEINFORM_SPECIAL_HEALTH_CARE_DETAILS_LABEL"
+            description="COM_BATENSTEINFORM_SPECIAL_HEALTH_CARE_DETAILS_DESC"
+            rows="3"
+            cols="50"
+            class="inputbox"
+        />
+        
+        <field
+            name="medication"
+            type="radio"
+            label="COM_BATENSTEINFORM_MEDICATION_LABEL"
+            description="COM_BATENSTEINFORM_MEDICATION_DESC"
+            class="btn-group btn-group-yesno"
+            default="No"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+        
+        <field
+            name="medication_details"
+            type="textarea"
+            label="COM_BATENSTEINFORM_MEDICATION_DETAILS_LABEL"
+            description="COM_BATENSTEINFORM_MEDICATION_DETAILS_DESC"
+            rows="3"
+            cols="50"
+            class="inputbox"
+        />
+    </fieldset>
+
+    <!-- Allergies -->
+    <fieldset name="health_allergies" label="COM_BATENSTEINFORM_HEALTH_ALLERGIES_LABEL">
+        <field
+            name="allergies"
+            type="radio"
+            label="COM_BATENSTEINFORM_ALLERGIES_LABEL"
+            description="COM_BATENSTEINFORM_ALLERGIES_DESC"
+            class="btn-group btn-group-yesno"
+            default="No"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+        
+        <field
+            name="allergies_details"
+            type="textarea"
+            label="COM_BATENSTEINFORM_ALLERGIES_DETAILS_LABEL"
+            description="COM_BATENSTEINFORM_ALLERGIES_DETAILS_DESC"
+            rows="3"
+            cols="50"
+            class="inputbox"
+        />
+        
+        <field
+            name="diet"
+            type="radio"
+            label="COM_BATENSTEINFORM_DIET_LABEL"
+            description="COM_BATENSTEINFORM_DIET_DESC"
+            class="btn-group btn-group-yesno"
+            default="No"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+        
+        <field
+            name="diet_details"
+            type="textarea"
+            label="COM_BATENSTEINFORM_DIET_DETAILS_LABEL"
+            description="COM_BATENSTEINFORM_DIET_DETAILS_DESC"
+            rows="3"
+            cols="50"
+            class="inputbox"
+        />
+    </fieldset>
+    <!-- Insurance and doctors -->
+    <fieldset name="insurance" label="COM_BATENSTEINFORM_HEALTH_INSURANCE_LABEL">
+        <field
+            name="health_insurance"
+            type="text"
+            label="COM_BATENSTEINFORM_HEALTH_INSURANCE_NAME_LABEL"
+            description="COM_BATENSTEINFORM_HEALTH_INSURANCE_NAME_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="policy_number"
+            type="text"
+            label="COM_BATENSTEINFORM_POLICY_NUMBER_LABEL"
+            description="COM_BATENSTEINFORM_POLICY_NUMBER_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+    </fieldset>
+    <fieldset name="doctors" label="COM_BATENSTEINFORM_DOCTORS_LABEL">    
+        <field
+            name="gp_name"
+            type="text"
+            label="COM_BATENSTEINFORM_GP_NAME_LABEL"
+            description="COM_BATENSTEINFORM_GP_NAME_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        <field
+            name="gp_address"
+            type="text"
+            label="COM_BATENSTEINFORM_GP_ADDRESS_LABEL"
+            description="COM_BATENSTEINFORM_GP_ADDRESS_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="gp_phone"
+            type="tel"
+            label="COM_BATENSTEINFORM_GP_PHONE_LABEL"
+            description="COM_BATENSTEINFORM_GP_PHONE_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        <field
+            name="dentist_name"
+            type="text"
+            label="COM_BATENSTEINFORM_DENTIST_NAME_LABEL"
+            description="COM_BATENSTEINFORM_DENTIST_NAME_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="dentist_address"
+            type="text"
+            label="COM_BATENSTEINFORM_DENTIST_ADDRESS_LABEL"
+            description="COM_BATENSTEINFORM_DENTIST_ADDRESS_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="dentist_phone"
+            type="tel"
+            label="COM_BATENSTEINFORM_DENTIST_PHONE_LABEL"
+            description="COM_BATENSTEINFORM_DENTIST_PHONE_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+    </fieldset>
+    <!-- Emergency treatment consent -->
+    <fieldset name="emergency_treatment_consent" label="COM_BATENSTEINFORM_EMERGENCY_TREATMENT_LABEL">
+        <field
+            name="emergency_treatment_consent"
+            type="radio"
+            label="COM_BATENSTEINFORM_EMERGENCY_TREATMENT_CONSENT_LABEL"
+            description="COM_BATENSTEINFORM_EMERGENCY_TREATMENT_CONSENT_DESC"
+            class="btn-group btn-group-yesno"
+            default="No"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+    </fieldset>
+
+    <!-- Page 4: Payment Details -->
+    <fieldset name="payment" label="COM_BATENSTEINFORM_PAYMENT_LABEL">
+        <field
+            name="iban"
+            type="text"
+            label="COM_BATENSTEINFORM_IBAN_LABEL"
+            description="COM_BATENSTEINFORM_IBAN_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="account_name"
+            type="text"
+            label="COM_BATENSTEINFORM_ACCOUNT_NAME_LABEL"
+            description="COM_BATENSTEINFORM_ACCOUNT_NAME_DESC"
+            size="40"
+            class="inputbox"
+            required="true"
+        />
+        
+        <field
+            name="sign_date"
+            type="text"
+            label="COM_BATENSTEINFORM_SIGN_DATE_LABEL"
+            description="COM_BATENSTEINFORM_SIGN_DATE_DESC"
+            size="40"
+            class="inputbox readonly"
+            required="true"
+            readonly="true"
+            default="now"
+        />
+    </fieldset>
+
+    <!-- Page 5: Comments and Review -->
+    <fieldset name="comments" label="COM_BATENSTEINFORM_COMMENTS_LABEL">
+        <field
+            name="comments"
+            type="textarea"
+            label="COM_BATENSTEINFORM_COMMENTS_LABEL"
+            description="COM_BATENSTEINFORM_COMMENTS_DESC"
+            rows="10"
+            cols="80"
+            class="inputbox"
+        />
+    </fieldset>
+</form>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.9" method="upgrade">
+    <name>COM_BATENSTEINFORM</name>
+    <creationDate>May 2025</creationDate>
+    <author>Scouting Batenstein</author>
+    <authorEmail>info@batenstein.nl</authorEmail>
+    <authorUrl>https://www.batenstein.nl</authorUrl>
+    <copyright>Copyright (C) 2025 Scouting Batenstein. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.0.0</version>
+    <description>COM_BATENSTEINFORM_XML_DESCRIPTION</description>
+    
+    <!-- Runs on install/uninstall/update -->
+    <scriptfile>script.php</scriptfile>
+    
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+    
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+    
+    <!-- Site files -->
+    <files folder="site">
+        <filename>batensteinform.php</filename>
+        <filename>controller.php</filename>
+        <folder>controllers</folder>
+        <folder>models</folder>
+        <folder>views</folder>
+    </files>
+    
+    <!-- Media files -->
+    <media destination="com_batensteinform" folder="media">
+        <folder>css</folder>
+        <folder>js</folder>
+        <folder>images</folder>
+    </media>
+    
+    <!-- Language files -->
+    <languages folder="admin/language">
+        <language tag="nl-NL">nl-NL/nl-NL.com_batensteinform.ini</language>
+        <language tag="en-GB">en-GB/en-GB.com_batensteinform.ini</language>
+        <language tag="nl-NL">nl-NL/nl-NL.com_batensteinform.sys.ini</language>
+        <language tag="en-GB">en-GB/en-GB.com_batensteinform.sys.ini</language>
+    </languages>
+    
+    <!-- Administrator files -->
+    <administration>
+        <menu img="class:batensteinform">COM_BATENSTEINFORM_MENU</menu>
+        <submenu>
+            <menu link="option=com_batensteinform&amp;view=registrations" view="registrations" img="class:batensteinform" alt="Batensteinform/Registrations">COM_BATENSTEINFORM_SUBMENU_REGISTRATIONS</menu>
+        </submenu>
+        
+        <files folder="admin">
+            <filename>batensteinform.php</filename>
+            <filename>controller.php</filename>
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <folder>controllers</folder>
+            <folder>models</folder>
+            <folder>views</folder>
+            <folder>tables</folder>
+            <folder>helpers</folder>
+            <folder>sql</folder>
+            <folder>language</folder>
+        </files>
+        <languages folder="admin/language">
+            <language tag="nl-NL">nl-NL/nl-NL.com_batensteinform.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_batensteinform.ini</language>
+            <language tag="nl-NL">nl-NL/nl-NL.com_batensteinform.sys.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_batensteinform.sys.ini</language>
+        </languages>
+    </administration>
+    
+    <!-- Update servers 
+    <updateservers>
+        <server type="extension" priority="1" name="Batenstein Form Updates">
+            <![CDATA[https://www.batenstein.nl/updates/com_batensteinform.xml]]>
+        </server>
+    </updateservers>-->
+</extension>

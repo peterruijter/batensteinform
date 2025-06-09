@@ -1,0 +1,388 @@
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_batensteinform
+ *
+ * @copyright   Copyright (C) 2025 Scouting Batenstein. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.batenstein-form {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.batenstein-form .page-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.batenstein-form .page-header h1 {
+    display: flex;
+    align-items: center;
+    font-size: 28px;
+    color: #1a3300;
+}
+
+.batenstein-form .scouting-logo {
+    max-width: 120px;
+    margin-right: 15px;
+}
+
+.batenstein-form .batenstein-form-container {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.batenstein-form fieldset {
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.batenstein-form legend {
+    font-weight: bold;
+    color: #1a3300;
+    padding: 0 10px;
+    font-size: 18px;
+    border-bottom: none;
+    width: auto;
+}
+
+.batenstein-form .control-group {
+    margin-bottom: 15px;
+}
+
+.batenstein-form .control-label {
+    margin-bottom: 5px;
+}
+
+.batenstein-form .control-label label {
+    font-weight: 600;
+}
+
+.batenstein-form .controls input[type="text"],
+.batenstein-form .controls input[type="email"],
+.batenstein-form .controls input[type="tel"],
+.batenstein-form .controls textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.batenstein-form .radio {
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.batenstein-form .btn-toolbar {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.batenstein-form .btn-primary {
+    background-color: #1a3300;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.batenstein-form .btn-primary:hover {
+    background-color: #2d5a00;
+    color: white;
+}
+
+.batenstein-form .alert {
+    margin-bottom: 20px;
+}
+
+.batenstein-form .privacy-notice {
+    font-size: 0.9em;
+    margin-top: 30px;
+    color: #666;
+}
+
+.batenstein-form .btn-group-yesno {
+    display: flex;
+}
+
+.batenstein-form .btn-group-yesno label {
+    margin-right: 15px;
+}
+
+.batenstein-form .btn::after {
+    display: none;
+}
+
+/* Confirmation page styling */
+.batenstein-confirmation {
+    max-width: 680px;
+    margin: 30px auto;
+    text-align: center;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.batenstein-confirmation h1 {
+    color: #1a3300;
+    margin-bottom: 20px;
+}
+
+.batenstein-confirmation .confirmation-icon {
+    font-size: 60px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.batenstein-confirmation .back-home-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #1a3300;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.batenstein-confirmation .back-home-btn:hover {
+    background-color: #2d5a00;
+}
+
+
+/* Review content container */
+.batenstein-form #review-content {
+    margin-bottom: 30px;
+}
+
+/* Individual review sections */
+.batenstein-form .review-section {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Section titles */
+.batenstein-form .review-section-title {
+    color: #1a3300;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #1a3300;
+}
+
+/* Field container */
+.batenstein-form .review-fields {
+    display: grid;
+    gap: 10px;
+}
+
+/* Individual field display */
+.batenstein-form .review-field {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: start;
+}
+
+.batenstein-form .review-field:last-child {
+    border-bottom: none;
+}
+
+/* Field labels */
+.batenstein-form .review-field-label {
+    font-weight: 600;
+    color: #333;
+    word-wrap: break-word;
+}
+
+/* Field values */
+.batenstein-form .review-field-value {
+    color: #555;
+    word-wrap: break-word;
+    line-height: 1.4;
+}
+}
+
+/* Special styling for long text fields like comments */
+.batenstein-form .review-field[data-field="comments"] .review-field-value,
+.batenstein-form .review-field[data-field*="details"] .review-field-value {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 3px;
+    border-left: 3px solid #1a3300;
+    font-style: italic;
+}
+
+/* Highlight important fields */
+.batenstein-form .review-field[data-field="emergency_treatment_consent"] .review-field-value {
+    font-weight: bold;
+}
+
+.batenstein-form .review-field[data-field="emergency_treatment_consent"] .review-field-value[data-value="No"] {
+    color: #d9534f;
+    background-color: #f2dede;
+    padding: 5px 8px;
+    border-radius: 3px;
+}
+
+.batenstein-form .invalid-phone, .batenstein-form .invalid-email  {
+    border-color: #d9534f !important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px rgba(217, 83, 79, 0.6) !important;
+}
+
+.batenstein-form .phone-validation-error {
+    margin-top: 5px;
+    font-size: 0.875em;
+}
+
+
+.batenstein-form .form-control.invalid-phone, .batenstein-form .form-control.invalid-email {
+    border-color: #dc3545;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .batenstein-form .page-header h1 {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .batenstein-form .scouting-logo {
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+
+    .batenstein-form fieldset {
+        padding: 10px;
+    }
+
+    .batenstein-form .btn-toolbar {
+        flex-direction: column;
+    }
+
+    .batenstein-form .btn-group {
+        margin-bottom: 10px;
+    }
+
+
+    .batenstein-form .review-field {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .batenstein-form .review-field-label {
+        font-size: 14px;
+    }
+
+    .batenstein-form .review-section {
+        padding: 15px;
+    }
+
+    .batenstein-form .review-section-title {
+        font-size: 16px;
+    }
+
+  /* Make scout section radio buttons vertical on mobile */
+    .batenstein-form #jform_scout_section .radio {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    
+    .batenstein-form #jform_scout_section .btn-group-yesno {
+        display: block;
+    }
+    
+    /* Special styling for Yes/No image permission buttons - keep horizontal */
+    .batenstein-form #jform_images_website .btn-group-yesno,
+    .batenstein-form #jform_images_social .btn-group-yesno,
+    .batenstein-form #jform_images_newspaper .btn-group-yesno,
+    .batenstein-form .btn-group-yesno:not(#jform_scout_section .btn-group-yesno) {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .batenstein-form #jform_images_website .radio,
+    .batenstein-form #jform_images_social .radio,
+    .batenstein-form #jform_images_newspaper .radio,
+    .batenstein-form .btn-group-yesno:not(#jform_scout_section .btn-group-yesno) .radio {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 100%;
+        flex: 1;
+    }
+    
+    /* Style the radio button labels for better mobile experience */
+    .batenstein-form .radio label {
+        display: block;
+        padding: 12px 15px;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-align: center;
+        font-weight: 600;
+    }
+    
+    /* Special styling for Yes/No buttons to make them look like proper buttons */
+    .batenstein-form #jform_images_website .radio label,
+    .batenstein-form #jform_images_social .radio label,
+    .batenstein-form #jform_images_newspaper .radio label,
+    .batenstein-form .btn-group-yesno:not(#jform_scout_section .btn-group-yesno) .radio label {
+        margin-bottom: 0;
+        padding: 15px 10px;
+        border-radius: 6px;
+        font-size: 16px;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Style for selected radio buttons */
+    .batenstein-form .radio input[type="radio"]:checked + label,
+    .batenstein-form .radio label:has(input[type="radio"]:checked) {
+        background-color: #1a3300;
+        color: white;
+        border-color: #1a3300;
+    }
+    
+    /* Hover effect for mobile touch */
+    .batenstein-form .radio label:hover {
+        background-color: #e9ecef;
+    }
+    
+    .batenstein-form .radio input[type="radio"]:checked + label:hover,
+    .batenstein-form .radio label:has(input[type="radio"]:checked):hover {
+        background-color: #2d5a00;
+    }
+    
+    /* Hide the actual radio button and use custom styling */
+    .batenstein-form .radio input[type="radio"] {
+        margin-right: 8px;
+    }
+}

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset name="email" label="COM_BATENSTEINFORM_CONFIG_EMAIL_FIELDSET_LABEL">
+        
+        <field
+            name="email_language"
+            type="list"
+            label="COM_BATENSTEINFORM_CONFIG_EMAIL_LANGUAGE_LABEL"
+            description="COM_BATENSTEINFORM_CONFIG_EMAIL_LANGUAGE_DESC"
+            default="en-GB"
+        >
+            <option value="en-GB">English (UK)</option>
+            <option value="nl-NL">Nederlands</option>
+        </field>
+        
+        <field
+            name="recipient_emails"
+            type="textarea"
+            label="COM_BATENSTEINFORM_CONFIG_RECIPIENT_EMAILS_LABEL"
+            description="COM_BATENSTEINFORM_CONFIG_RECIPIENT_EMAILS_DESC"
+            default="secretaris@batenstein.nl,penningmeester@batenstein.nl"
+            rows="3"
+            cols="50"
+        />
+        
+        <field
+            name="section_emails"
+            type="radio"
+            label="COM_BATENSTEINFORM_CONFIG_SECTION_EMAILS_LABEL"
+            description="COM_BATENSTEINFORM_CONFIG_SECTION_EMAILS_DESC"
+            class="btn-group btn-group-yesno"
+            default="1"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        
+        <field
+            name="send_copy_to_parent"
+            type="radio"
+            label="COM_BATENSTEINFORM_CONFIG_SEND_COPY_PARENT_LABEL"
+            description="COM_BATENSTEINFORM_CONFIG_SEND_COPY_PARENT_DESC"
+            class="btn-group btn-group-yesno"
+            default="1"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        
+    </fieldset>
+    
+    <fieldset name="form" label="COM_BATENSTEINFORM_CONFIG_FORM_FIELDSET_LABEL">
+        
+        <field
+            name="require_emergency_consent"
+            type="radio"
+            label="COM_BATENSTEINFORM_CONFIG_REQUIRE_EMERGENCY_CONSENT_LABEL"
+            description="COM_BATENSTEINFORM_CONFIG_REQUIRE_EMERGENCY_CONSENT_DESC"
+            class="btn-group btn-group-yesno"
+            default="1"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        
+        <field
+            name="show_privacy_notice"
+            type="radio"
+            label="COM_BATENSTEINFORM_CONFIG_SHOW_PRIVACY_NOTICE_LABEL"
+            description="COM_BATENSTEINFORM_CONFIG_SHOW_PRIVACY_NOTICE_DESC"
+            class="btn-group btn-group-yesno"
+            default="1"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        
+        <field
+            name="form_intro_text"
+            type="textarea"
+            label="COM_BATENSTEINFORM_CONFIG_FORM_INTRO_TEXT_LABEL"
+            description="COM_BATENSTEINFORM_CONFIG_FORM_INTRO_TEXT_DESC"
+            default=""
+            rows="5"
+            cols="50"
+        />
+        
+    </fieldset>
+    
+    <fieldset name="database" label="COM_BATENSTEINFORM_CONFIG_DATABASE_FIELDSET_LABEL">
+        
+        <field
+            name="auto_delete_old_registrations"
+            type="radio"
+            label="COM_BATENSTEINFORM_CONFIG_AUTO_DELETE_LABEL"
+            description="COM_BATENSTEINFORM_CONFIG_AUTO_DELETE_DESC"
+            class="btn-group btn-group-yesno"
+            default="0"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        
+        <field
+            name="delete_after_months"
+            type="number"
+            label="COM_BATENSTEINFORM_CONFIG_DELETE_AFTER_MONTHS_LABEL"
+            description="COM_BATENSTEINFORM_CONFIG_DELETE_AFTER_MONTHS_DESC"
+            default="24"
+            min="1"
+            max="120"
+            showon="auto_delete_old_registrations:1"
+        />
+        
+    </fieldset>
+</config>
