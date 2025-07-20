@@ -221,6 +221,19 @@
             format="%Y-%m-%d"
         />
         
+        <!-- Payment Acknowledgment -->
+        <field
+            name="payment_acknowledgment"
+            type="list"
+            label="COM_BATENSTEINFORM_PAYMENT_ACKNOWLEDGMENT_LABEL"
+            description="COM_BATENSTEINFORM_PAYMENT_ACKNOWLEDGMENT_DESC"
+            class="inputbox"
+            default="No"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
+        
         <!-- Image/Video Permissions -->
         <field
             name="images_website"

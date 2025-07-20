@@ -223,6 +223,11 @@ class BatensteinFormControllerForm extends FormController
             $errors[] = Text::_('COM_BATENSTEINFORM_ERROR_EMERGENCY_CONSENT_REQUIRED');
         }
         
+        // Payment acknowledgment validation
+        if (empty($data['payment_acknowledgment']) || $data['payment_acknowledgment'] !== 'Yes') {
+            $errors[] = Text::_('COM_BATENSTEINFORM_ERROR_PAYMENT_ACKNOWLEDGMENT_REQUIRED');
+        }
+        
         // Conditional field validation
         if (!empty($data['can_swim']) && $data['can_swim'] === 'Yes') {
             if (empty($data['swim_diplomas']) || trim($data['swim_diplomas']) === '') {

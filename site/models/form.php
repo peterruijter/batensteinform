@@ -159,6 +159,7 @@ class BatensteinFormModelForm extends FormModel
             'iban',
             'account_name',
             'sign_date',
+            'payment_acknowledgment',
 
             // Image/Video Permissions
             'images_website',
@@ -313,11 +314,32 @@ class BatensteinFormModelForm extends FormModel
             $recipients[] = $sectionEmail;
         }
 
-        // $mailer->addRecipient($recipients);
-        $mailer->addRecipient('peter@batenstein.nl');
+        // Add appropriate email addresses based on scout section
+        if (!empty($data['scout_section'])) {
+            $scoutSection = strtolower($data['scout_section']);
+            
+            // For younger sections (welpen and scouts), add parent email addresses
+            if ($scoutSection === 'welpen' || $scoutSection === 'scouts') {
+                // Add parent1 email if provided
+                if (!empty($data['parent1_email_address'])) {
+                    $recipients[] = $data['parent1_email_address'];
+                }
+                // Add parent2 email if provided
+                if (!empty($data['parent2_email_address'])) {
+                    $recipients[] = $data['parent2_email_address'];
+                }
+            } else {
+                // For older sections (explorers, stam, plus, sikas), add scout's own email
+                if (!empty($data['email_address'])) {
+                    $recipients[] = $data['email_address'];
+                }
+            }
+        }
+
+        $mailer->addRecipient($recipients);
 
         // Create email body
-        $body = $this->createEmailBody($data);
+        $body = $this->createEmailBody($data); 
         $mailer->setBody($body);
         $mailer->isHTML(true);
 
@@ -429,6 +451,7 @@ class BatensteinFormModelForm extends FormModel
         $html .= '<p><strong>' . Text::_('COM_BATENSTEINFORM_IBAN_LABEL') . ':</strong> ' . $data['iban'] . '</p>';
         $html .= '<p><strong>' . Text::_('COM_BATENSTEINFORM_ACCOUNT_NAME_LABEL') . ':</strong> ' . $data['account_name'] . '</p>';
         $html .= '<p><strong>' . Text::_('COM_BATENSTEINFORM_SIGN_DATE_LABEL') . ':</strong> ' . $data['sign_date'] . '</p>';
+        $html .= '<p><strong>' . Text::_('COM_BATENSTEINFORM_PAYMENT_ACKNOWLEDGMENT_LABEL') . ':</strong> ' . Text::_('COM_BATENSTEINFORM_' . strtoupper($data['payment_acknowledgment'])) . '</p>';
 
         // Image/Video Permissions
         $html .= '<h2>' . Text::_('COM_BATENSTEINFORM_IMAGES_LABEL') . '</h2>';

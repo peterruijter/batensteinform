@@ -304,6 +304,10 @@ $input = $app->input;
                         <div class="control-label"><?php echo $this->form->getLabel('sign_date'); ?></div>
                         <div class="controls"><?php echo $this->form->getInput('sign_date'); ?></div>
                     </div>
+                    <div class="control-group">
+                        <div class="control-label"><?php echo $this->form->getLabel('payment_acknowledgment'); ?></div>
+                        <div class="controls"><?php echo $this->form->getInput('payment_acknowledgment'); ?></div>
+                    </div>
                 </div>
                 <div class="span6">
                     <h4><?php echo Text::_('COM_BATENSTEINFORM_IMAGES_LABEL'); ?></h4>

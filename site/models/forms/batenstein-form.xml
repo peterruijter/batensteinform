@@ -514,6 +514,20 @@
             readonly="true"
             default="now"
         />
+        
+        <!-- Payment Acknowledgment -->
+        <field
+            name="payment_acknowledgment"
+            type="radio"
+            label="COM_BATENSTEINFORM_PAYMENT_ACKNOWLEDGMENT_LABEL"
+            description="COM_BATENSTEINFORM_PAYMENT_ACKNOWLEDGMENT_DESC"
+            class="btn-group btn-group-yesno"
+            default="No"
+            required="true"
+        >
+            <option value="Yes">COM_BATENSTEINFORM_YES</option>
+            <option value="No">COM_BATENSTEINFORM_NO</option>
+        </field>
     </fieldset>
 
     <!-- Page 5: Comments and Review -->

@@ -83,6 +83,7 @@ $document->addScriptDeclaration('
         "emergency_treatment_consent": "' . Text::_('COM_BATENSTEINFORM_EMERGENCY_TREATMENT_CONSENT_LABEL') . '",
         "iban": "' . Text::_('COM_BATENSTEINFORM_IBAN_LABEL') . '",
         "account_name": "' . Text::_('COM_BATENSTEINFORM_ACCOUNT_NAME_LABEL') . '",
+        "payment_acknowledgment": "' . Text::_('COM_BATENSTEINFORM_PAYMENT_ACKNOWLEDGMENT_LABEL') . '",
         "sign_date": "' . Text::_('COM_BATENSTEINFORM_SIGN_DATE_LABEL') . '",
         "comments": "' . Text::_('COM_BATENSTEINFORM_COMMENTS_LABEL') . '"
     };
@@ -134,6 +135,7 @@ $document->addScriptDeclaration('
         "COM_BATENSTEINFORM_SECTION_SCOUTS_ALERT": `' . Text::_('COM_BATENSTEINFORM_SECTION_SCOUTS_ALERT') . '`,
         "COM_BATENSTEINFORM_SECTION_EXPLORERS_ALERT": `' . Text::_('COM_BATENSTEINFORM_SECTION_EXPLORERS_ALERT') . '`,
         "COM_BATENSTEINFORM_SECTION_STAM_ALERT": `' . Text::_('COM_BATENSTEINFORM_SECTION_STAM_ALERT') . '`,
+        "COM_BATENSTEINFORM_ERROR_PAYMENT_ACKNOWLEDGMENT": `' . Text::_('COM_BATENSTEINFORM_ERROR_PAYMENT_ACKNOWLEDGMENT_REQUIRED') . '`,
     };
 
     // Make translations globally available
@@ -150,7 +152,9 @@ $document->addScriptDeclaration('
         <h1>
             <?php echo Text::_('COM_BATENSTEINFORM_FORM_TITLE'); ?>
         </h1>
+        <?php if ($currentPage == 1): ?>
         <p class="lead"><?php echo Text::_('COM_BATENSTEINFORM_FORM_INTRO'); ?></p>
+        <?php endif; ?>
 
         <!-- Page indicator -->
         <div class="progress-indicator">

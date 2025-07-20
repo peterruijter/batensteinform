@@ -198,7 +198,12 @@ function validateCurrentPage() {
             return false;
         }
     } else if (page == 4) {
-        requiredFields = ["iban", "account_name"];
+        requiredFields = ["iban", "account_name", "payment_acknowledgment"];
+        
+        // Validate payment acknowledgment on page 4
+        if (!validatePaymentAcknowledgment()) {
+            return false;
+        }
     }
 
     // Validate required fields
@@ -222,6 +227,19 @@ function validateCurrentPage() {
     }
 
     return valid;
+}
+
+/**
+ * Validates payment acknowledgment
+ * @return {boolean} True if payment acknowledgment is checked, false otherwise
+ */
+function validatePaymentAcknowledgment() {
+    var paymentAcknowledgment = document.querySelector("[name=\"jform[payment_acknowledgment]\"]:checked");
+    if (!paymentAcknowledgment || paymentAcknowledgment.value !== "Yes") {
+        alert(getLanguageString('COM_BATENSTEINFORM_ERROR_PAYMENT_ACKNOWLEDGMENT'));
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -370,7 +388,6 @@ function addStoredDataToForm() {
         form.appendChild(hiddenField);
     });
 
-    console.log('Added stored form data to submission');
     return true;
 }
 
@@ -448,6 +465,25 @@ function saveFormData() {
             if (element.checked) {
                 existingData[name] = element.value;
             }
+        } else if (element.type === 'date' || element.hasAttribute('data-custom-date')) {
+            // Special handling for date fields
+            if (element.value !== '') {
+                var dateToStore;
+                
+                if (element.hasAttribute('data-custom-date')) {
+                    // For custom formatted date fields, use the ISO value
+                    dateToStore = element.getAttribute('data-iso-value') || formatDateForStorage(element.value);
+                } else {
+                    // For regular date fields
+                    dateToStore = formatDateForInput(element.value);
+                }
+                
+                if (dateToStore) {
+                    existingData[name] = dateToStore;
+                }
+            } else if (existingData[name] !== undefined) {
+                // Preserve existing date value if current field is empty
+            }
         } else {
             // Only save non-empty values or explicitly preserve empty values
             if (element.value !== '' || existingData[name] !== undefined) {
@@ -455,7 +491,7 @@ function saveFormData() {
             }
         }
     });
-
+    
     // Save merged data back to sessionStorage
     try {
         sessionStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(existingData));
@@ -474,11 +510,42 @@ function restoreFormData() {
         if (!formData) return;
 
         var form = document.getElementById('batenstein-form');
+        if (!form) {
+            console.warn('Form not found during restoration');
+            return;
+        }
 
-        // Restore each field
+        // Special handling for birth date field first
+        var birthDateField = form.querySelector('input[name="jform[birth_date]"]');
+        var storedBirthDate = formData['jform[birth_date]'];
+        
+        if (birthDateField && storedBirthDate) {
+            var formattedBirthDate = formatDateForInput(storedBirthDate);
+            if (formattedBirthDate) {
+                // Setup custom date formatting if needed
+                if (birthDateField.type === 'date') {
+                    setupCustomDateFormat(birthDateField);
+                }
+                
+                // Set the value in display format for text inputs, ISO format for date inputs
+                if (birthDateField.type === 'text' && birthDateField.hasAttribute('data-custom-date')) {
+                    birthDateField.value = formatDateForDisplay(formattedBirthDate);
+                    birthDateField.setAttribute('data-iso-value', formattedBirthDate);
+                } else {
+                    birthDateField.value = formattedBirthDate;
+                }
+                
+                birthDateField.setAttribute('data-restored', 'true');
+            }
+        }
+
+        // Restore other fields
         Object.keys(formData).forEach(function (fieldName) {
             var value = formData[fieldName];
             if (!value) return;
+
+            // Skip birth date as we handled it above
+            if (fieldName === 'jform[birth_date]') return;
 
             // Try to find the field
             var field = form.querySelector('[name="' + fieldName + '"]');
@@ -489,12 +556,31 @@ function restoreFormData() {
                     var radioButton = form.querySelector('[name="' + fieldName + '"][value="' + value + '"]');
                     if (radioButton) {
                         radioButton.checked = true;
+                        
+                        // Mark scout section selections as user-selected to prevent override
+                        if (fieldName === 'jform[scout_section]') {
+                            radioButton.setAttribute('data-user-selected', 'true');
+                        }
+                        
                         // Trigger change event to update form visibility
                         var event = new Event('change', { bubbles: true });
                         radioButton.dispatchEvent(event);
                     }
                 } else if (field.type === 'checkbox') {
                     field.checked = (value === field.value);
+                } else if (field.type === 'date') {
+                    // Handle other date fields (not birth_date)
+                    var formattedDate = formatDateForInput(value);
+                    if (formattedDate) {
+                        setupCustomDateFormat(field);
+                        if (field.type === 'text' && field.hasAttribute('data-custom-date')) {
+                            field.value = formatDateForDisplay(formattedDate);
+                            field.setAttribute('data-iso-value', formattedDate);
+                        } else {
+                            field.value = formattedDate;
+                        }
+                        field.setAttribute('data-restored', 'true');
+                    }
                 } else {
                     // Text inputs, textareas, selects
                     field.value = value;
@@ -527,11 +613,237 @@ function restoreFormData() {
                     field.dispatchEvent(changeEvent);
                 }
             });
-        }, 100);
+
+            // Final check for birth date field - ensure it wasn't overwritten
+            if (birthDateField && storedBirthDate) {
+                var expectedIsoValue = formatDateForInput(storedBirthDate);
+                var currentValue = birthDateField.value;
+                
+                // Check if we need to restore the value
+                var needsRestore = false;
+                if (birthDateField.hasAttribute('data-custom-date')) {
+                    var currentIsoValue = birthDateField.getAttribute('data-iso-value');
+                    needsRestore = (currentIsoValue !== expectedIsoValue);
+                } else {
+                    needsRestore = (currentValue !== expectedIsoValue);
+                }
+                
+                if (needsRestore) {
+                    console.warn('Birth date was overwritten! Restoring again...');
+                    if (birthDateField.hasAttribute('data-custom-date')) {
+                        birthDateField.value = formatDateForDisplay(expectedIsoValue);
+                        birthDateField.setAttribute('data-iso-value', expectedIsoValue);
+                    } else {
+                        birthDateField.value = expectedIsoValue;
+                    }
+                }
+            }
+        }, 150);
 
     } catch (e) {
         console.warn('Could not restore form data from sessionStorage:', e);
     }
+}
+
+/**
+ * Converts date from YYYY-MM-DD to DD-MM-YYYY for display
+ * @param {string} isoDate - Date in YYYY-MM-DD format
+ * @return {string} Date in DD-MM-YYYY format
+ */
+function formatDateForDisplay(isoDate) {
+    if (!isoDate || typeof isoDate !== 'string') {
+        return '';
+    }
+
+    var isoFormat = /^(\d{4})-(\d{2})-(\d{2})$/;
+    var match = isoDate.match(isoFormat);
+    
+    if (match) {
+        var year = match[1];
+        var month = match[2];
+        var day = match[3];
+        return day + '-' + month + '-' + year;
+    }
+    
+    return isoDate; // Return as-is if not in expected format
+}
+
+/**
+ * Converts date from DD-MM-YYYY to DD-MM-YYYY (same format)
+ * @param {string} displayDate - Date in DD-MM-YYYY format
+ * @return {string} Date in DD-MM-YYYY format (unchanged)
+ */
+function formatDateForStorage(displayDate) {
+    if (!displayDate || typeof displayDate !== 'string') {
+        return '';
+    }
+
+    var europeanFormat = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
+    var match = displayDate.match(europeanFormat);
+    
+    if (match) {
+        var day = match[1].padStart(2, '0');
+        var month = match[2].padStart(2, '0');
+        var year = match[3];
+        
+        // Validate the date
+        var date = new Date(year, month - 1, day);
+        if (!isNaN(date.getTime()) && 
+            date.getDate() == parseInt(day) && 
+            date.getMonth() == parseInt(month) - 1 && 
+            date.getFullYear() == parseInt(year)) {
+            return day + '-' + month + '-' + year;
+        }
+    }
+    
+    return displayDate; // Return as-is if conversion fails
+}
+
+/**
+ * Enhanced formatDateForInput function that handles both storage and display formats
+ * Always returns YYYY-MM-DD for HTML5 date inputs but stores display preference
+ */
+function formatDateForInput(dateString) {
+    if (!dateString || typeof dateString !== 'string') {
+        return null;
+    }
+
+    var cleanDate = dateString.trim();
+    var date;
+
+    // Check if already in DD-MM-YYYY format
+    var europeanFormat = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
+    var europeanMatch = cleanDate.match(europeanFormat);
+    if (europeanMatch) {
+        var day = europeanMatch[1].padStart(2, '0');
+        var month = europeanMatch[2].padStart(2, '0');
+        var year = europeanMatch[3];
+        
+        // Create date object and validate
+        date = new Date(year, month - 1, day);
+        if (!isNaN(date.getTime()) && 
+            date.getDate() == parseInt(day) && 
+            date.getMonth() == parseInt(month) - 1 && 
+            date.getFullYear() == parseInt(year)) {
+            return day + '-' + month + '-' + year;
+        }
+    }
+
+    // Check if in YYYY-MM-DD format and convert to DD-MM-YYYY
+    var isoFormat = /^\d{4}-\d{2}-\d{2}$/;
+    if (isoFormat.test(cleanDate)) {
+        // Validate the date
+        date = new Date(cleanDate + 'T00:00:00');
+        if (!isNaN(date.getTime())) {
+            var parts = cleanDate.split('-');
+            return parts[2] + '-' + parts[1] + '-' + parts[0];
+        }
+    }
+
+    // Check for DD/MM/YYYY format
+    var europeanSlashFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+    var europeanSlashMatch = cleanDate.match(europeanSlashFormat);
+    if (europeanSlashMatch) {
+        var day = europeanSlashMatch[1].padStart(2, '0');
+        var month = europeanSlashMatch[2].padStart(2, '0');
+        var year = europeanSlashMatch[3];
+        
+        // Create date object and validate
+        date = new Date(year, month - 1, day);
+        if (!isNaN(date.getTime()) && 
+            date.getDate() == parseInt(day) && 
+            date.getMonth() == parseInt(month) - 1 && 
+            date.getFullYear() == parseInt(year)) {
+            return day + '-' + month + '-' + year;
+        }
+    }
+
+    // Try to parse as a general date
+    date = new Date(cleanDate);
+    if (!isNaN(date.getTime())) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var day = String(date.getDate()).padStart(2, '0');
+        return day + '-' + month + '-' + year;
+    }
+
+    console.warn('Could not format date string:', dateString);
+    return null;
+}
+
+/**
+ * Setup custom date input handling for DD-MM-YYYY format display
+ * Converts between HTML5 date input (YYYY-MM-DD) and display format (DD-MM-YYYY)
+ * @param {HTMLElement} dateField - The date input field
+ */
+function setupCustomDateFormat(dateField) {
+    if (!dateField || dateField.type !== 'date') {
+        return;
+    }
+
+    // Convert to text input for custom formatting
+    dateField.type = 'text';
+    dateField.placeholder = 'DD-MM-YYYY';
+    
+    // Add input pattern and validation
+    dateField.pattern = '\\d{1,2}-\\d{1,2}-\\d{4}';
+    dateField.setAttribute('data-custom-date', 'true');
+    
+    // If field has a value in YYYY-MM-DD format, convert to display format
+    if (dateField.value && /^\d{4}-\d{2}-\d{2}$/.test(dateField.value)) {
+        dateField.value = formatDateForDisplay(dateField.value);
+    }
+    
+    // Add event listeners for validation and formatting
+    var validationTimeout;
+    
+    function validateAndFormat() {
+        var value = dateField.value.trim();
+        if (!value) return;
+        
+        var formatted = formatDateForStorage(value);
+        if (formatted && formatted !== value) {
+            // Store the formatted DD-MM-YYYY format
+            dateField.setAttribute('data-euro-value', formatted);
+        }
+        
+        // Validate date format
+        var europeanFormat = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
+        if (value && !europeanFormat.test(value)) {
+            dateField.classList.add('invalid-date');
+        } else {
+            dateField.classList.remove('invalid-date');
+        }
+    }
+    
+    function debouncedValidation() {
+        clearTimeout(validationTimeout);
+        validationTimeout = setTimeout(validateAndFormat, 500);
+    }
+    
+    dateField.addEventListener('input', debouncedValidation);
+    dateField.addEventListener('blur', validateAndFormat);
+    
+    // Format input as user types
+    dateField.addEventListener('input', function(e) {
+        var value = e.target.value.replace(/[^\d]/g, '');
+        var formatted = '';
+        
+        if (value.length >= 1) {
+            formatted = value.substring(0, 2);
+        }
+        if (value.length >= 3) {
+            formatted += '-' + value.substring(2, 4);
+        }
+        if (value.length >= 5) {
+            formatted += '-' + value.substring(4, 8);
+        }
+        
+        // Only update if different to avoid cursor jumping
+        if (formatted !== e.target.value && value.length <= 8) {
+            e.target.value = formatted;
+        }
+    });
 }
 
 /**
@@ -657,7 +969,7 @@ function populateReviewContent() {
 
     // Payment Information  
     reviewHtml += generateReviewSection("Payment Information", [
-        "iban", "account_name", "sign_date"
+        "iban", "account_name", "sign_date", "payment_acknowledgment"
     ]);
 
     // Comments (if filled)
@@ -760,7 +1072,7 @@ function setupJoomlaSubmitButton() {
         if (task == "form.save") {
             // First save current page data
             saveFormData();
-            debugFormData();
+            // debugFormData();
             // Validate form
             if (document.formvalidator && document.formvalidator.isValid(document.getElementById('batenstein-form'))) {
                 // Add all stored data to form before submission
@@ -954,6 +1266,12 @@ function setupHealthConditionalFields() {
  * Initialize all form functionality
  */
 function initializeBatensteinForm() {
+
+    initializeCustomDateFields();
+
+    // Restore form data when page loads
+    restoreFormData();
+
     // Initialize phone and email validation
     initializeBatensteinValidation();
 
@@ -962,9 +1280,6 @@ function initializeBatensteinForm() {
 
     // Setup Joomla submit button functionality
     setupJoomlaSubmitButton();
-
-    // Restore form data when page loads
-    restoreFormData();
 
     // Initialize auto-save functionality
     initializeAutoSave();
@@ -994,13 +1309,23 @@ function initializeBatensteinForm() {
         });
 
         // Initial auto-selection if birthdate is already filled
-        var initialBirthdate = birthDateField.value;
-        if (initialBirthdate) {
-            var initialAge = calculateAge(initialBirthdate);
-            if (initialAge !== null) {
-                autoSelectScoutSection(initialAge);
-            }
-        }
+        setTimeout(function () {
+            var currentBirthdate = birthDateField.value;
+
+            // Only auto-select if the field actually has a meaningful value
+            // and it's not today's date (which would indicate a default value)
+            var today = new Date();
+            var todayString = today.getFullYear() + '-' +
+                String(today.getMonth() + 1).padStart(2, '0') + '-' +
+                String(today.getDate()).padStart(2, '0');
+
+            if (currentBirthdate && currentBirthdate !== todayString) {
+                var initialAge = calculateAge(currentBirthdate);
+                if (initialAge !== null) {
+                    autoSelectScoutSection(initialAge);
+                }
+            } 
+        }, 250);
     }
 
     // Setup scout section change handlers
@@ -1392,6 +1717,27 @@ function setupPhoneValidation(phoneField, errorContainer) {
 }
 
 /**
+ * Setup user interaction tracking for scout section fields
+ * Marks fields as user-selected when clicked manually
+ */
+function setupScoutSectionTracking() {
+    var scoutSectionFields = document.querySelectorAll("input[name='jform[scout_section]']");
+    scoutSectionFields.forEach(function (field) {
+        field.addEventListener("click", function () {
+            // Mark this as a user selection
+            this.setAttribute('data-user-selected', 'true');
+            
+            // Remove the attribute from other options
+            scoutSectionFields.forEach(function(otherField) {
+                if (otherField !== field) {
+                    otherField.removeAttribute('data-user-selected');
+                }
+            });
+        });
+    });
+}
+
+/**
  * Real-time email validation for form fields
  * Shows error messages only for invalid input
  * 
@@ -1541,6 +1887,15 @@ function setupIbanValidation(ibanField, errorContainer) {
     });
 }
 
+/**
+ * Initialize all custom date fields in the form
+ */
+function initializeCustomDateFields() {
+    var dateFields = document.querySelectorAll('input[type="date"]');
+    dateFields.forEach(function(field) {
+        setupCustomDateFormat(field);
+    });
+}
 
 /**
  * Batch setup for multiple phone and email fields in the Batenstein form
@@ -1762,19 +2117,13 @@ function calculateAge(birthDateValue) {
 
     var birthDate;
 
-    // Check regex for American date notation (yyyy-mm-dd) and European date notation (dd-mm-yyyy)
-    var americanNotation = /^\d{4}-\d{2}-\d{2}$/;
-    var europeanNotation = /^\d{2}-\d{2}-\d{4}$/;
+    // Check for European date notation (dd-mm-yyyy)
+    var europeanNotation = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
 
-    if (birthDateValue.includes("-") && (americanNotation.test(birthDateValue) || europeanNotation.test(birthDateValue))) {
+    if (birthDateValue.includes("-") && europeanNotation.test(birthDateValue)) {
         var parts = birthDateValue.split("-");
-        if (parts[0].length === 4) {
-            // Format: yyyy-mm-dd (American notation)
-            birthDate = new Date(parts[0], parts[1] - 1, parts[2]);
-        } else {
-            // Format: dd-mm-yyyy (European notation)
-            birthDate = new Date(parts[2], parts[1] - 1, parts[0]);
-        }
+        // Format: dd-mm-yyyy (European notation)
+        birthDate = new Date(parts[2], parts[1] - 1, parts[0]);
     } else {
         return null; // Invalid format
     }
@@ -1801,13 +2150,28 @@ function calculateAge(birthDateValue) {
  */
 function autoSelectScoutSection(age) {
     var scoutSections = document.getElementsByName("jform[scout_section]");
-
-    // First, uncheck all radio buttons
+    
+    // Check if user has already manually selected a section
+    var currentlySelected = null;
+    var hasUserSelection = false;
+    
     for (var i = 0; i < scoutSections.length; i++) {
-        scoutSections[i].checked = false;
+        if (scoutSections[i].checked) {
+            currentlySelected = scoutSections[i].value;
+            // Check if this selection was from restored data or user interaction
+            if (scoutSections[i].hasAttribute('data-user-selected')) {
+                hasUserSelection = true;
+            }
+            break;
+        }
     }
-
-    // Select the appropriate section based on age
+    
+    // If user has manually selected something, don't override it
+    if (hasUserSelection) {
+        return;
+    }
+    
+    // Determine the appropriate section based on age
     var selectedValue = "";
     if (age >= 7 && age < 11) {
         selectedValue = "welpen";
@@ -1816,22 +2180,36 @@ function autoSelectScoutSection(age) {
     } else if (age >= 15 && age < 18) {
         selectedValue = "explorers";
     } else if (age >= 18) {
-        // Default to "stam" for adults (18+)
-        selectedValue = "stam";
+        // For adults (18+), check if a specific section was already selected
+        // If "plus" or "sikas" was selected, keep it; otherwise default to "stam"
+        if (currentlySelected === "plus" || currentlySelected === "sikas") {
+            return; // Don't change it
+        }
+        selectedValue = "stam"; // Default for adults
     }
-
-    // Find and check the correct radio button
-    if (selectedValue) {
+    
+    // Only auto-select if we determined a value and it's different from current
+    if (selectedValue && selectedValue !== currentlySelected) {
+        
+        // First, uncheck all radio buttons
+        for (var i = 0; i < scoutSections.length; i++) {
+            scoutSections[i].checked = false;
+        }
+        
+        // Find and check the correct radio button
         for (var i = 0; i < scoutSections.length; i++) {
             if (scoutSections[i].value === selectedValue) {
                 scoutSections[i].checked = true;
+                // Don't mark as user-selected since this is auto-selection
+                scoutSections[i].removeAttribute('data-user-selected');
+                
                 // Trigger change event to update form visibility
                 var changeEvent = new Event('change', { bubbles: true });
                 scoutSections[i].dispatchEvent(changeEvent);
                 break;
             }
         }
-    }
+    } 
 }
 
 // Auto-initialize when DOM is ready (fallback if not manually initialized)

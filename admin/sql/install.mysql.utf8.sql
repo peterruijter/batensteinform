@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `#__batenstein_registrations` (
   `iban` varchar(50) NOT NULL,
   `account_name` varchar(255) NOT NULL,
   `sign_date` date NOT NULL,
+  `payment_acknowledgment` enum('Yes','No') NOT NULL DEFAULT 'No',
   
   -- Image/Video Permissions
   `images_website` enum('Yes','No') NOT NULL DEFAULT 'Yes',
